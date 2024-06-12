@@ -12,3 +12,14 @@ export const alignOptions = [
     value: 'right',
   },
 ]
+
+export const tableLayoutOptions = [
+  {
+    label: 'fixed',
+    value: 'fixed',
+  },
+  {
+    label: 'auto',
+    value: 'auto',
+  },
+]

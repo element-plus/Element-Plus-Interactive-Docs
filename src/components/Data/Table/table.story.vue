@@ -1,191 +1,43 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import sizeOptions from '@constants/sizeOptions'
-import { alignOptions } from './constants'
+import { alignOptions, tableLayoutOptions } from './constants'
 
 /** Basic-Table */
-const tableData = ref([
-  {
-    name: 'John Doe',
-    age: 28,
-    gender: 'Male',
-    country: 'USA',
-    city: 'New York',
-    occupation: 'Engineer',
-    education: 'Bachelor',
-    language: 'English',
-    hobbies: 'Basketball',
-    income: 8000,
-    email: 'johndoe@example.com',
-    phone: '1234567890',
-    address: '123 Main St',
-    registrationDate: '2022-01-01',
-    remarks: 'None',
-    status: 'Active',
-  },
-  {
-    name: 'Jane Smith',
-    age: 32,
-    gender: 'Female',
-    country: 'Canada',
-    city: 'Toronto',
-    occupation: 'Doctor',
-    education: 'Master',
-    language: 'English',
-    hobbies: 'Reading',
-    income: 10000,
-    email: 'janesmith@example.com',
-    phone: '9876543210',
-    address: '456 Elm St',
-    registrationDate: '2022-02-15',
-    remarks: 'Likes to travel',
-    status: 'Active',
-  },
-  {
-    name: 'Michael Johnson',
-    age: 35,
-    gender: 'Male',
-    country: 'Australia',
-    city: 'Sydney',
-    occupation: 'Teacher',
-    education: 'PhD',
-    language: 'English',
-    hobbies: 'Hiking',
-    income: 6000,
-    email: 'michaeljohnson@example.com',
-    phone: '4567891230',
-    address: '789 Oak St',
-    registrationDate: '2022-03-10',
-    remarks: 'Enjoys cooking',
-    status: 'Inactive',
-  },
-  {
-    name: 'Emily Davis',
-    age: 29,
-    gender: 'Female',
-    country: 'UK',
-    city: 'London',
-    occupation: 'Designer',
-    education: 'Bachelor',
-    language: 'English',
-    hobbies: 'Painting',
-    income: 7500,
-    email: 'emilydavis@example.com',
-    phone: '7891234560',
-    address: '321 Pine St',
-    registrationDate: '2022-04-05',
-    remarks: 'Loves photography',
-    status: 'Active',
-  },
-  {
-    name: 'David Wilson',
-    age: 31,
-    gender: 'Male',
-    country: 'Germany',
-    city: 'Berlin',
-    occupation: 'Developer',
-    education: 'Master',
-    language: 'German',
-    hobbies: 'Gaming',
-    income: 9000,
-    email: 'davidwilson@example.com',
-    phone: '0123456789',
-    address: '987 Cedar St',
-    registrationDate: '2022-05-20',
-    remarks: 'Plays guitar',
-    status: 'Active',
-  },
-  {
-    name: 'Sophia Martinez',
-    age: 27,
-    gender: 'Female',
-    country: 'Spain',
-    city: 'Madrid',
-    occupation: 'Writer',
-    education: 'Bachelor',
-    language: 'Spanish',
-    hobbies: 'Dancing',
-    income: 5500,
-    email: 'sophiamartinez@example.com',
-    phone: '2345678901',
-    address: '654 Maple St',
-    registrationDate: '2022-06-15',
-    remarks: 'Enjoys hiking',
-    status: 'Inactive',
-  },
-  {
-    name: 'Daniel Anderson',
-    age: 33,
-    gender: 'Male',
-    country: 'France',
-    city: 'Paris',
-    occupation: 'Manager',
-    education: 'Master',
-    language: 'French',
-    hobbies: 'Photography',
-    income: 7000,
-    email: 'danielanderson@example.com',
-    phone: '3456789012',
-    address: '876 Walnut St',
-    registrationDate: '2022-07-10',
-    remarks: 'Loves to travel',
-    status: 'Active',
-  },
-  {
-    name: 'Olivia Taylor',
-    age: 30,
-    gender: 'Female',
-    country: 'Italy',
-    city: 'Rome',
-    occupation: 'Architect',
-    education: 'PhD',
-    language: 'Italian',
-    hobbies: 'Singing',
-    income: 8500,
-    email: 'oliviataylor@example.com',
-    phone: '4567890123',
-    address: '543 Birch St',
-    registrationDate: '2022-08-25',
-    remarks: 'Plays piano',
-    status: 'Active',
-  },
-  {
-    name: 'Isabella Lee',
-    age: 28,
-    gender: 'Female',
-    country: 'South Korea',
-    city: 'Seoul',
-    occupation: 'Marketing',
-    education: 'Bachelor',
-    language: 'Korean',
-    hobbies: 'Traveling',
-    income: 6000,
-    email: 'isabellalee@example.com',
-    phone: '6789012345',
-    address: '432 Pine St',
-    registrationDate: '2022-10-15',
-    remarks: 'Enjoys playing piano',
-    status: 'Active',
-  },
-  {
-    name: 'Ethan Clark',
-    age: 29,
-    gender: 'Male',
-    country: 'Brazil',
-    city: 'Rio de Janeiro',
-    occupation: 'Entrepreneur',
-    education: 'Master',
-    language: 'Portuguese',
-    hobbies: 'Surfing',
-    income: 9000,
-    email: 'ethanclark@example.com',
-    phone: '7890123456',
-    address: '765 Elm St',
-    registrationDate: '2022-11-10',
-    remarks: 'Passionate about sports',
-    status: 'Active',
-  },
-])
+const tableData = ref([])
+
+/** generateData */
+function generateData(): any {
+  for (let i = 1; i <= 10; i++) {
+    tableData.value.push({
+      name: `Name ${i}`,
+      age: Math.floor(Math.random() * 50) + 20,
+      gender: i % 2 === 0 ? 'Male' : 'Female',
+      country: `Country ${i}`,
+      city: `City ${i}`,
+      income: Math.floor(Math.random() * 10000) + 5000,
+      email: `email${i}@example.com`,
+      phone: `123456789${i}`,
+      address: `Address ${i}`,
+      registrationDate: '2022-01-01',
+      date: '2022-01-01',
+      status: i % 3 === 0 ? 'Active' : 'Inactive',
+      family: [
+        {
+          name: 'Jerry',
+          state: 'California',
+          city: 'San Francisco',
+          address: '3650 21st St, San Francisco',
+          zip: 'CA 94114',
+        },
+      ],
+    })
+  }
+}
+
+onMounted(() => {
+  generateData()
+})
 
 /** Basic-Table-Data */
 const basicTableData = reactive({
@@ -209,6 +61,8 @@ const basicTableData = reactive({
   resizable: true,
   align: 'left',
   headerAlign: 'left',
+  tableLayoutOptions,
+  tableLayout: 'fixed',
 })
 
 /** Basic-Table-Column */
@@ -217,16 +71,11 @@ const basicTableColumn = reactive([
   { label: 'Age', prop: 'age' },
   { label: 'Country', prop: 'country' },
   { label: 'City', prop: 'city' },
-  { label: 'Occupation', prop: 'occupation' },
-  { label: 'Education', prop: 'education' },
-  { label: 'Language', prop: 'language' },
-  { label: 'Hobbies', prop: 'hobbies' },
   { label: 'Income', prop: 'income' },
   { label: 'Email', prop: 'email' },
   { label: 'Phone', prop: 'phone' },
   { label: 'Address', prop: 'address' },
-  { label: 'Registration Date', prop: 'registrationDate' },
-  { label: 'Remarks', prop: 'remarks' },
+  { label: 'Date', prop: 'registrationDate' },
   { label: 'Status', prop: 'status' },
 ])
 
@@ -240,30 +89,22 @@ function tableRowClassName(row: any) {
   return ''
 }
 
-/** source */
-const source = computed(() => {
-  return `<script setup lang="ts">
-const tableData = ref([
-  {
-    name: 'John Doe',
-    age: 28,
-    gender: 'Male',
-    country: 'USA',
-    city: 'New York',
-    occupation: 'Engineer',
-    education: 'Bachelor',
-    language: 'English',
-    hobbies: 'Basketball',
-    income: 8000,
-    email: 'johndoe@example.com',
-    phone: '1234567890',
-    address: '123 Main St',
-    registrationDate: '2022-01-01',
-    remarks: 'None',
-    status: 'Active',
-  },
-  ...
-])
+/** arraySpanMethod */
+function arraySpanMethod(span: SpanMethodProps) {
+  if (span.rowIndex % 2 === 0) {
+    if (span.columnIndex === 0)
+      return [1, 2]
+    else if (span.columnIndex === 1)
+      return [0, 0]
+  }
+}
+
+/** basicTableSource */
+const basicTableSource = computed(() => {
+  return `
+<script setup lang="ts">
+import { onMounted, reactive, ref } from 'vue'
+const tableData = ref([])
 
 const basicTableColumn = reactive([
   { label: 'Name', prop: 'name' },
@@ -282,6 +123,30 @@ const basicTableColumn = reactive([
   { label: 'Remarks', prop: 'remarks' },
   { label: 'Status', prop: 'status' },
 ])
+
+/** generateData */
+function generateData(): any {
+  for (let i = 1; i <= 10; i++) {
+    tableData.value.push({
+      name: \`Name \${i}\`,
+      age: Math.floor(Math.random() * 50) + 20,
+      gender: i % 2 === 0 ? 'Male' : 'Female',
+      country: \`Country \${i}\`,
+      city: \`City \${i}\`,
+      income: Math.floor(Math.random() * 10000) + 5000,
+      email: \`email\${i}@example.com\`,
+      phone: \`123456789\${i}\`,
+      address: \`Address \${i}\`,
+      registrationDate: \'2022-01-01\',
+      status: i % 3 === 0 ? 'Active' : 'Inactive',
+    })
+  }
+}
+
+onMounted(() => {
+  generateData()
+})
+
 <\/script>
 
 <template>
@@ -323,18 +188,136 @@ const basicTableColumn = reactive([
 </template>
 `
 })
+
+/** customTableSource */
+const customTableSource = computed(() => {
+  return `
+<script setup lang="ts">
+import { onMounted, reactive, ref } from 'vue'
+const tableData = ref([])
+
+/** generateData */
+function generateData(): any {
+  for (let i = 1; i <= 10; i++) {
+    tableData.value.push({
+      name: \`Name \${i}\`,
+      date: '2022-01-01',
+      status: i % 3 === 0 ? 'Active' : 'Inactive',
+      family: [
+        {
+          name: 'Jerry',
+          state: 'California',
+          city: 'San Francisco',
+          address: '3650 21st St, San Francisco',
+          zip: 'CA 94114',
+        },
+      ],
+    })
+  }
+}
+
+onMounted(() => {
+  generateData()
+})
+
+/** arraySpanMethod */
+function arraySpanMethod(span: SpanMethodProps) {
+  if (span.rowIndex % 2 === 0) {
+    if (span.columnIndex === 0)
+      return [1, 2]
+    else if (span.columnIndex === 1)
+      return [0, 0]
+  }
+}
+
+<\/script>
+
+<template>
+  <el-table
+        :data="tableData"
+        style="width: 100%"
+        :span-method="arraySpanMethod"
+      >
+        <el-table-column type="index" />
+        <el-table-column type="expand">
+          <template #default="props">
+            <div m="4">
+              <p m="t-0 b-2">
+                Status: {{ props.row.status }}
+              </p>
+              <p m="t-0 b-2">
+                City: {{ props.row.city }}
+              </p>
+              <p m="t-0 b-2">
+                Address: {{ props.row.address }}
+              </p>
+              <h3>Family</h3>
+              <el-table :data="props.row.family" :border="childBorder">
+                <el-table-column label="Name" prop="name" />
+                <el-table-column label="State" prop="state" />
+                <el-table-column label="City" prop="city" />
+                <el-table-column label="Address" prop="address" />
+                <el-table-column label="Zip" prop="zip" />
+              </el-table>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="Date" width="180">
+          <template #default="scope">
+            <div style="display: flex; align-items: center">
+              <el-icon><timer /></el-icon>
+              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="Name" width="180">
+          <template #default="scope">
+            <el-popover effect="light" trigger="hover" placement="top" width="auto">
+              <template #default>
+                <div>name: {{ scope.row.name }}</div>
+                <div>address: {{ scope.row.address }}</div>
+              </template>
+              <template #reference>
+                <el-tag>{{ scope.row.name }}</el-tag>
+              </template>
+            </el-popover>
+          </template>
+        </el-table-column>
+        <el-table-column label="Operations">
+          <template #header>
+            <el-input v-model="search" size="small" placeholder="Type to search" />
+          </template>
+          <template #default="scope">
+            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
+              Edit
+            </el-button>
+            <el-button
+              size="small"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+            >
+              Delete
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+</template>
+`
+})
 </script>
 
 <template>
   <Story
-    title="Data/Table" icon="material-symbols-light:data-table-outline" :layout="{
-      type: 'grid',
-      width: '90%',
+    title="Data/Table"
+    icon="material-symbols-light:data-table-outline"
+    :layout="{
+      type: 'single',
+      iframe: false,
     }"
   >
     <Variant
       title="Basic Table"
-      :source="source"
+      :source="basicTableSource"
     >
       <el-table
         :empty-text="basicTableData.emptyText"
@@ -351,6 +334,7 @@ const basicTableColumn = reactive([
         :flexible="basicTableData.flexible"
         :scrollbar-always-on="basicTableData.scrollbarAlwaysOn"
         :show-summary="basicTableData.showSummary"
+        :table-layout="basicTableData.tableLayout"
       >
         <el-table-column
           v-for="(item, index) in basicTableColumn"
@@ -358,7 +342,7 @@ const basicTableColumn = reactive([
           min-width="120px"
           :label="item.label"
           :prop="item.prop"
-          :fixed="item.label === 'Name' ? basicTableData.fixed : false"
+          :fixed="item.label === 'Name' || item.label === 'Status' ? basicTableData.fixed : false"
           :align="basicTableData.align"
           :show-overflow-tooltip="basicTableData.showOverflowTooltip"
           :sortable="basicTableData.sortable"
@@ -375,12 +359,17 @@ const basicTableColumn = reactive([
         <HstCheckbox v-model="basicTableData.showTableData" title="ShowTableData" />
         <HstText v-model="basicTableData.emptyText" title="EmptyText" />
         <HstNumber v-model="basicTableData.height" title="Height" />
-        <HstRadio
+        <HstButtonGroup
+          v-model="basicTableData.tableLayout"
+          title="Table Layout"
+          :options="basicTableData.tableLayoutOptions"
+        />
+        <HstButtonGroup
           v-model="basicTableData.size"
           title="Size"
           :options="basicTableData.sizeOptions"
         />
-        <HstRadio
+        <HstButtonGroup
           v-model="basicTableData.align"
           title="Align"
           :options="basicTableData.alignOptions"
@@ -399,6 +388,81 @@ const basicTableColumn = reactive([
 
         <HstCheckbox v-model="basicTableData.resizable" title="Resizable" />
       </template>
+    </Variant>
+
+    <Variant
+      title="Custom Table"
+      :source="customTableSource"
+    >
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :span-method="arraySpanMethod"
+      >
+        <el-table-column type="index" />
+        <el-table-column type="expand">
+          <template #default="props">
+            <div m="4">
+              <p m="t-0 b-2">
+                Status: {{ props.row.status }}
+              </p>
+              <p m="t-0 b-2">
+                City: {{ props.row.city }}
+              </p>
+              <p m="t-0 b-2">
+                Address: {{ props.row.address }}
+              </p>
+              <h3>Family</h3>
+              <el-table :data="props.row.family" :border="childBorder">
+                <el-table-column label="Name" prop="name" />
+                <el-table-column label="State" prop="state" />
+                <el-table-column label="City" prop="city" />
+                <el-table-column label="Address" prop="address" />
+                <el-table-column label="Zip" prop="zip" />
+              </el-table>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="Date" width="180">
+          <template #default="scope">
+            <div style="display: flex; align-items: center">
+              <el-icon><timer /></el-icon>
+              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="Name" width="180">
+          <template #default="scope">
+            <el-popover effect="light" trigger="hover" placement="top" width="auto">
+              <template #default>
+                <div>name: {{ scope.row.name }}</div>
+                <div>address: {{ scope.row.address }}</div>
+              </template>
+              <template #reference>
+                <el-tag>{{ scope.row.name }}</el-tag>
+              </template>
+            </el-popover>
+          </template>
+        </el-table-column>
+        <el-table-column label="Operations">
+          <template #header>
+            <el-input v-model="search" size="small" placeholder="Type to search" />
+          </template>
+          <template #default="scope">
+            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
+              Edit
+            </el-button>
+            <el-button
+              size="small"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+            >
+              Delete
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <template #controls />
     </Variant>
   </Story>
 </template>
